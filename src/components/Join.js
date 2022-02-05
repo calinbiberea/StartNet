@@ -5,6 +5,7 @@ import {
 } from "@material-ui/core";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import logo from "../images/logo.gif";
+import {useNavigate} from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -66,7 +67,12 @@ const useStyles = makeStyles((theme) =>
 const Join: React.FC = () => {
     const classes = useStyles();
 
-    console.log("here we are");
+    const history = useNavigate();
+
+    const onInventorClick = () => {
+        console.log("should jump to inventor form!")
+        history("/inventor-form");
+    }
 
     return (
         <>
@@ -85,6 +91,7 @@ const Join: React.FC = () => {
                                 variant="contained"
                                 color="primary"
                                 size="large"
+                                onClick={onInventorClick}
                             >
                                 Invent
                             </Button>
