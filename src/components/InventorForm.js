@@ -1,6 +1,14 @@
-import React from "react";
-import {Checkbox, TextField,} from "@material-ui/core";
+import React, {useRef} from "react";
+import {Checkbox, TextField, Typography,} from "@material-ui/core";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
+import Box from '@mui/material/Box';
+import Avatar from "@material-ui/core/Avatar"
+import Chip from "@material-ui/core/Chip"
+import { useState } from "react"
+
+import Autocomplete from '@mui/material/Autocomplete';
+import {Button} from "@mui/material";
+
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -58,25 +66,116 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const InventorForm: React.FC = () => {
-    const classes = useStyles();
+export default function FormPropsTextFields() {
+    const [projectName, setProjectName] = useState("");
+    const [projectTopic, setProjectTopic] = useState([]);
+    const [projectDescription, setProjectDescription] = useState("");
+    const [projectRequirements, setProjectRequirements] = useState("");
 
-    const handleSubmit = () => {
-        // Should do something here nicely :)
+    const addProjectTopic = (topic) => {
+        const currentProjecTopic = projectTopic;
+        currentProjecTopic.concat(topic);
+        setProjectTopic(topic)
     }
 
-    return (
-        <>
-            <div className={classes.centered}>
-                <div className={classes.container}>
-                    <form onSubmit={handleSubmit} className={classes.container}>
-                        <TextField name="lastName" label="Last Name" />
-                        <TextField name="firstName" label="First Name" />
-                    </form>
-                </div>
-            </div>
-        </>
-    );
-};
+    const removeProjectTopic = (topic) => {
+        const currentProjecTopic = projectTopic;
+        currentProjecTopic.concat(topic);
+        setProjectTopic(topic)
+    }
 
-export default InventorForm;
+
+    return (
+        <Box
+            component="form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+
+
+            <div>
+                <Typography variant="body1" gutterBottom component="div">
+                    Project Name
+                </Typography>
+                <TextField
+                    inputRef={ref => {setProjectName(ref)}}
+                    required
+                    id="name"
+                    label="Project Name"
+                    defaultValue="My New Project"
+                />
+
+                <Typography variant="body1" gutterBorefttom component="div">
+                    Project Topic
+                </Typography>
+                <Autocomplete
+                    inputValue={ref => {console.log(ref)}}
+                    multiple
+                    id="tags"
+                    options={categories.map((option) => {
+                        console.log("pula pula");
+                        return option.tag;
+                    })}
+                    freeSolo
+                    renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Topic"
+                            placeholder="Topic..."
+                        />
+                    )}
+                />
+                <Typography variant="body1" gutterBottom component="div">
+                    Description
+                </Typography>
+                <TextField
+                    inputRef={ref => {setProjectDescription(ref)}}
+                    id="description"
+                    label="Description"
+                    multiline
+                    rows={6}
+                    defaultValue="Enter description..."
+                />
+
+                <Typography variant="body1" gutterBottom component="div">
+                    Requirements
+                </Typography>
+                <TextField
+                    inputRef={ref => {setProjectRequirements(ref)}}
+                    id="requirements"
+                    label="Requirements"
+                    multiline
+                    rows={6}
+                    defaultValue="Enter requirements..."
+                />
+                <Button
+                    onClick={() => {
+                        console.log("Project Name: " + projectName.value);
+                        console.log("Project Topic(s): " + projectTopic.value);
+                        console.log("Project Description: " + projectDescription.value);
+                        console.log("Project Requirements: " + projectRequirements.value);
+                    }}
+                >
+                    Submit
+                </Button>
+
+            </div>
+        </Box>
+    );
+}
+
+const categories = [
+    {tag : "Fintech"},
+    {tag: "Artificial Intelligence"},
+    {tag: "Robotics"},
+    {tag: "Agriculture"},
+    {tag: "Clothing"},
+];
