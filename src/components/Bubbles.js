@@ -2,6 +2,7 @@ import React from "react";
 import BubbleChart from "@weknow/react-bubble-chart-d3";
 import useScreenSize from "use-screen-size";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
+import {Backdrop, Button, Card, CardActions, CardContent, Fade, Modal, Typography} from "@mui/material";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -9,6 +10,15 @@ const useStyles = makeStyles((theme) =>
             fontFamily: "sans-serif",
             textAlign: "center",
         },
+        modalStyle: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            boxShadow: 24,
+            p: 4,
+        }
     })
 );
 
@@ -17,16 +27,54 @@ const Bubbles: React.FC = () => {
 
     const classes = useStyles();
 
+    const [open, setOpen] = React.useState(false);
+    const [projectName, setProjectName] = React.useState("");
+    const [proposerName, setProposerName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [contact, setContact] = React.useState("");
+    const [id, setID] = React.useState(0);
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => setOpen(false);
+
     const bubbleClick = (label) => {
-        console.log("Custom bubble click func");
-    };
-    const legendClick = (label) => {
-        console.log("Customer legend click func");
+        setProjectName(label);
+        handleOpen()
     };
 
     return (
         <div className={classes.container}>
-
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <Card className={classes.modalStyle}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {projectName}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                This is some nice text to make everything nice and clear instead of insane.
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small">Get Details</Button>
+                            <Button size="small">Contact</Button>
+                        </CardActions>
+                    </Card>
+                </Fade>
+            </Modal>
 
             <BubbleChart
                 graph={{
@@ -55,9 +103,10 @@ const Bubbles: React.FC = () => {
                     color: "#fff",
                     weight: "bold"
                 }}
-                //Custom bubble/legend click functions such as searching using the label, redirecting to other page
-                bubbleClickFunc={bubbleClick()}
-                legendClickFun={legendClick()}
+                // Custom bubble/legend click functions such as searching using the label, redirecting to other page
+                bubbleClickFun={bubbleClick}
+                legendClickFun={() => {
+                }}
                 data={[
                     {label: "Testing", value: 1, color: '#000000'},
                     {label: "API", value: 1},
