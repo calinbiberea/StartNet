@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {AppBar} from "@material-ui/core";
 import {createTheme, makeStyles} from "@material-ui/core/styles";
-import {Paper, Tab, Tabs, ThemeProvider, Typography} from "@mui/material";
-import Bubbles from "./Bubbles";
-import Inventors from "./Inventors";
-import ProjectPage from "./ProjectPage";
+import {Paper, Tab, Tabs, ThemeProvider} from "@mui/material";
+import Bubbles from "../common/Bubbles";
+import BuilderPage from "./BuilderPage";
 
 const theme = createTheme({
     overrides: {
@@ -63,17 +62,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const View: React.FC = () => {
+const BuilderView: React.FC = () => {
     const classes = useStyles();
 
     const [viewPage, setViewPage] = useState(0);
     const onViewPageChange = (_event, newValue: number) => setViewPage(newValue);
 
     const tabsArray = [
-        <ProjectPage />,
-        <Bubbles />,
-        <Typography>Muie1</Typography>,
-        <Inventors />
+        <BuilderPage/>,
+        <Bubbles/>
     ]
 
     return (
@@ -94,13 +91,9 @@ const View: React.FC = () => {
                             },
                         }}
                     >
-                        <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Edit Project</span>}/>
+                        <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Edit Details</span>}/>
 
                         <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Ideas</span>}/>
-
-                        <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Builders</span>}/>
-
-                        <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Investors</span>}/>
                     </Tabs>
                 </AppBar>
             </ThemeProvider>
@@ -113,4 +106,4 @@ const View: React.FC = () => {
     );
 };
 
-export default View;
+export default BuilderView;

@@ -67,8 +67,15 @@ const Join: React.FC = () => {
     const history = useNavigate();
 
     const onInventorClick = () => {
-        console.log("should jump to inventor form!")
         history("/inventor-form");
+    }
+
+    const onInvestorClick = () => {
+        history("/investor-form");
+    }
+
+    const onBuilderClick = () => {
+        history("/builder-form");
     }
 
     return (
@@ -98,6 +105,7 @@ const Join: React.FC = () => {
                                 variant="contained"
                                 color="primary"
                                 size="large"
+                                onClick={onBuilderClick}
                             >
                                 Build
                             </Button>
@@ -107,6 +115,7 @@ const Join: React.FC = () => {
                                 variant="contained"
                                 color="primary"
                                 size="large"
+                                onClick={onInvestorClick}
                             >
                                 Invest
                             </Button>

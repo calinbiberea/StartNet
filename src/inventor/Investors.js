@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Inventors: React.FC = () => {
+const Investors: React.FC = () => {
     const classes = useStyles();
 
     const [sponsoredList, setSponsoredList] = useState();
@@ -70,4 +70,4 @@ const Inventors: React.FC = () => {
     );
 }
 
-export default Inventors;
+export default Investors;
