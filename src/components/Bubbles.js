@@ -2,6 +2,7 @@ import React from "react";
 import BubbleChart from "@weknow/react-bubble-chart-d3";
 import useScreenSize from "use-screen-size";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
+import AppBar from "./AppBar";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -26,6 +27,8 @@ const Bubbles: React.FC = () => {
 
     return (
         <div className={classes.container}>
+            <AppBar />
+
             <BubbleChart
                 graph={{
                     zoom: 1

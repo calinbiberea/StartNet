@@ -1,8 +1,5 @@
-import React, {} from "react";
-import {
-    Button,
-    ButtonGroup, Typography,
-} from "@material-ui/core";
+import React from "react";
+import {Button, ButtonGroup, Typography,} from "@material-ui/core";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import logo from "../images/logo.gif";
 import {useNavigate} from "react-router-dom";
