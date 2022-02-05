@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) =>
                 fontSize: "1.25rem",
             },
         },
+        wantStyle: {
+            fontWeight: 800,
+        },
     })
 );
 
@@ -67,8 +70,15 @@ const Join: React.FC = () => {
     const history = useNavigate();
 
     const onInventorClick = () => {
-        console.log("should jump to inventor form!")
         history("/inventor-form");
+    }
+
+    const onInvestorClick = () => {
+        history("/investor-form");
+    }
+
+    const onBuilderClick = () => {
+        history("/builder-form");
     }
 
     return (
@@ -77,7 +87,7 @@ const Join: React.FC = () => {
                 <div className={classes.container}>
                     <img className={classes.logo} src={logo} alt="StartNet"/>
 
-                    <Typography variant="h3" gutterBottom component="div">
+                    <Typography variant="h3" gutterBottom component="div" className={classes.wantStyle}>
                         I want to...
                     </Typography>
 
@@ -98,6 +108,7 @@ const Join: React.FC = () => {
                                 variant="contained"
                                 color="primary"
                                 size="large"
+                                onClick={onBuilderClick}
                             >
                                 Build
                             </Button>
@@ -107,6 +118,7 @@ const Join: React.FC = () => {
                                 variant="contained"
                                 color="primary"
                                 size="large"
+                                onClick={onInvestorClick}
                             >
                                 Invest
                             </Button>
