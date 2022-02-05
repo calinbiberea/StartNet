@@ -6,6 +6,8 @@ import InventorForm from "./inventor/InventorForm";
 import InventorView from "./inventor/InventorView";
 import BuilderView from "./builder/BuilderView";
 import BuilderForm from "./builder/BuilderForm";
+import InvestorForm from "./investor/InvestorForm";
+import InvestorView from "./investor/InvestorView";
 
 const theme = createTheme({
     palette: {
@@ -26,13 +28,13 @@ const App: React.FC = () => {
 
                     <Route path="/inventor-view" element={<InventorView/>}/>
 
-                    <Route path="/investor-form" element={<BuilderForm />}/>
+                    <Route path="/builder-form" element={<BuilderForm />}/>
 
-                    <Route path="/investor-view" element={<BuilderView />}/>
+                    <Route path="/builder-view" element={<BuilderView />}/>
 
-                    <Route path="/builder-form" element={<InventorForm />}/>
+                    <Route path="/investor-form" element={<InvestorForm />}/>
 
-                    <Route path="/builder-view" element={<InventorView />}/>
+                    <Route path="/investor-view" element={<InvestorView />}/>
                 </Routes>
             </Router>
         </ThemeProvider>

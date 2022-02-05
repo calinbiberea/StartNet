@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BuilderView: React.FC = () => {
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     const [viewPage, setViewPage] = useState(0);
     const onViewPageChange = (_event, newValue: number) => setViewPage(newValue);
