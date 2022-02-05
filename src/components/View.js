@@ -3,6 +3,8 @@ import {AppBar} from "@material-ui/core";
 import {createTheme, makeStyles} from "@material-ui/core/styles";
 import {Paper, Tab, Tabs, ThemeProvider, Typography} from "@mui/material";
 import Bubbles from "./Bubbles";
+import Inventors from "./Inventors";
+import ProjectPage from "./ProjectPage";
 
 const theme = createTheme({
     overrides: {
@@ -61,16 +63,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const View: React.FC<ViewProps> = () => {
+const View: React.FC = () => {
     const classes = useStyles();
 
     const [viewPage, setViewPage] = useState(0);
     const onViewPageChange = (_event, newValue: number) => setViewPage(newValue);
 
     const tabsArray = [
+        <ProjectPage />,
         <Bubbles />,
         <Typography>Muie1</Typography>,
-        <Typography>Muie2</Typography>
+        <Inventors />
     ]
 
     return (
@@ -91,6 +94,8 @@ const View: React.FC<ViewProps> = () => {
                             },
                         }}
                     >
+                        <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Edit Project</span>}/>
+
                         <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Ideas</span>}/>
 
                         <Tab className={classes.tabStyle} label={<span style={{color: '#FFFCF4'}}>Builders</span>}/>
