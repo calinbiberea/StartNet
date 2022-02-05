@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) =>
                 fontSize: "1.25rem",
             },
         },
+        wantStyle: {
+            fontWeight: 800,
+        },
     })
 );
 
@@ -84,7 +87,7 @@ const Join: React.FC = () => {
                 <div className={classes.container}>
                     <img className={classes.logo} src={logo} alt="StartNet"/>
 
-                    <Typography variant="h3" gutterBottom component="div">
+                    <Typography variant="h3" gutterBottom component="div" className={classes.wantStyle}>
                         I want to...
                     </Typography>
 
