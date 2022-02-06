@@ -36,10 +36,6 @@ const Bubbles: React.FC = () => {
     const [matchingList, setMatchingList] = React.useState([]);
     const [getData, setGetData] = React.useState(true);
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-    }
-
     const initialLoading = () => {
         if (getData) {
             const request = "https://ichack-startnet.herokuapp.com/get_projects_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(15);
@@ -101,13 +97,7 @@ const Bubbles: React.FC = () => {
             console.log(element);
             temp = temp.concat({
                 label: element.projectName,
-                value: () => {
-                    if (element.accessValue === 0) {
-                        return 1;
-                    } else {
-                        return element.accessValue;
-                    }
-                },
+                value: element.accessValue,
                 color: calculateSimilarityGradient(element.similarity),
             })
         });
