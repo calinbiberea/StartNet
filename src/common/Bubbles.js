@@ -1,9 +1,19 @@
 import React from "react";
 import BubbleChart from "@weknow/react-bubble-chart-d3";
 import useScreenSize from "use-screen-size";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
+import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
 import {Backdrop, Button, Card, CardActions, CardContent, Fade, Modal, Typography} from "@mui/material";
 import {useLocation} from "react-router-dom";
+
+const theme = createTheme({
+    overrides: {
+        MuiPaper: {
+            root: {
+                backgroundColor: "#FFFCF4",
+            },
+        }
+    }
+});
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -26,7 +36,7 @@ const useStyles = makeStyles((theme) =>
 const Bubbles: React.FC = () => {
     const size = useScreenSize();
 
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     const [projectName, setProjectName] = React.useState("");
     const [abstract, setAbstract] = React.useState("");
