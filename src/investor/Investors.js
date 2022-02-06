@@ -1,5 +1,17 @@
-import React, {useState} from "react";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
+import React from "react";
+import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
+import {Box, Card, CardContent, Typography} from "@mui/material";
+import {useLocation} from "react-router-dom";
+
+const theme = createTheme({
+    overrides: {
+        MuiPaper: {
+            root: {
+                backgroundColor: "#FFFCF4",
+            },
+        }
+    }
+});
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -16,21 +28,83 @@ const useStyles = makeStyles((theme) =>
             justifyContent: "space-evenly",
             alignItems: "center",
         },
+        cardClass: {
+            marginTop: 10,
+        },
     })
 );
 
 const Investors: React.FC = () => {
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
-    const [sponsoredList, setSponsoredList] = useState();
+    const initialProjectData = useLocation().state.data;
+    const [matchingList, setMatchingList] = React.useState([]);
+    const [getData, setGetData] = React.useState(true);
 
-    const [investorList, setInvestorList] = useState();
+    const sponsoredList = [
+        {
+            name: "Mircea Badea",
+            email: "mircea.badea@gmail.com",
+            budget: "2700",
+            interests: [
+                "manufacturing",
+                "transportation",
+                "energy",
+                "administrative_services"
+            ],
+            additionalHelp: [
+                "administrative services",
+                "marketing",
+                "networking"
+            ]
+        },
+    ];
 
-    const [items, setItems] = useState([
-        {itemName: 'item 1', quantity: 1, isSelected: false},
-        {itemName: 'item 2', quantity: 3, isSelected: true},
-        {itemName: 'item 3', quantity: 2, isSelected: false},
-    ]);
+    const initialLoading = () => {
+        if (getData) {
+            const request = "https://ichack-startnet.herokuapp.com/get_investors_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(15);
+            console.log(request);
+            fetch(request)
+                .then(response => response.json())
+                .then(data => {
+                    setMatchingList(data);
+                    setGetData(false);
+                });
+        }
+    }
+    initialLoading();
+
+    const card = (builder) => (
+        <React.Fragment>
+            <CardContent>
+                <Typography variant="h6" color="purple">
+                    Name: <span style={{color: "gray"}}>{builder.name}</span>
+                </Typography>
+                <Typography variant="h6" color="purple">
+                    Budget: <span style={{color: "gray"}}>{builder.budget}</span>
+                </Typography>
+                <Typography variant="h6" color="purple">
+                    Interests: {builder.interests.map(data => (
+                    <li style={{display: "inline", color: "gray"}} key={data}> {bull} {data}</li>
+                ))}
+                </Typography>
+                <Typography variant="h6" color="purple">
+                    Interests: {builder.additionalHelp.map(data => (
+                    <li style={{display: "can", color: "gray"}} key={data}> {bull} {data}</li>
+                ))}
+                </Typography>
+            </CardContent>
+        </React.Fragment>
+    );
+
+    const bull = (
+        <Box
+            component="span"
+            sx={{display: 'inline-block', mx: '2px', transform: 'scale(0.8)'}}
+        >
+            •
+        </Box>
+    );
 
     return (
         <div>
@@ -39,30 +113,26 @@ const Investors: React.FC = () => {
                 {/*    <input value={inputValue} onChange={(event) => setInputValue(event.target.value)}*/}
                 {/*           className='add-item-input' placeholder='Add an item...'/>*/}
                 {/*</div>*/}
+                <Typography variant="h6" color="gold">
+                    Some sponsored investors.
+                </Typography>
                 <div className='item-list'>
-                    {items.map((item, index) => (
-                        <div className='item-container'>
-                            <div className='item-name' onClick={() => {}}>
-                                {item.isSelected ? (
-                                    <>
-                                        <span className='completed'>{item.itemName}</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span>{item.itemName}</span>
-                                    </>
-                                )}
-                            </div>
-                            <div className='quantity'>
-                                <button>
-                                                     onClick={() => {}}/>
-                                </button>
-                                <span> {item.quantity} </span>
-                                <button>
-                                                     onClick={() => {}}/>
-                                </button>
-                            </div>
-                        </div>
+                    {sponsoredList.map((item, index) =>
+                        <Box className={classes.cardClass} sx={{minWidth: 150, border: 8, borderRadius: 4}}
+                             color="purple">
+                            <Card variant="outlined">{card(item)}</Card>
+                        </Box>
+                    )}
+                </div>
+                <Typography variant="h6" color="purple">
+                    Some builders that matched your project and needs.
+                </Typography>
+                <div className='item-list'>
+                    {matchingList.map((item, index) => (
+                        <Box className={classes.cardClass} sx={{minWidth: 150, border: 8, borderRadius: 4}}
+                             color="purple">
+                            <Card variant="outlined">{card(item)}</Card>
+                        </Box>
                     ))}
                 </div>
             </div>

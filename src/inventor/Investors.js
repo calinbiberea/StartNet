@@ -46,7 +46,7 @@ const Investors: React.FC = () => {
             name: "Mircea Badea",
             email: "mircea.badea@gmail.com",
             budget: "2700",
-            Interests: [
+            interests: [
                 "manufacturing",
                 "transportation",
                 "energy",
@@ -62,7 +62,7 @@ const Investors: React.FC = () => {
 
     const initialLoading = () => {
         if (getData) {
-            const request = "https://ichack-startnet.herokuapp.com/get_builders_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(15);
+            const request = "https://ichack-startnet.herokuapp.com/get_investors_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(15);
             console.log(request);
             fetch(request)
                 .then(response => response.json())
@@ -81,7 +81,10 @@ const Investors: React.FC = () => {
                     Name: <span style={{color: "gray"}}>{builder.name}</span>
                 </Typography>
                 <Typography variant="h6" color="purple">
-                    Interests: {builder.Interests.map(data => (
+                    Budget: <span style={{color: "gray"}}>{builder.budget}</span>
+                </Typography>
+                <Typography variant="h6" color="purple">
+                    Interests: {builder.interests.map(data => (
                     <li style={{display: "inline", color: "gray"}} key={data}> {bull} {data}</li>
                 ))}
                 </Typography>
@@ -110,13 +113,13 @@ const Investors: React.FC = () => {
                 {/*    <input value={inputValue} onChange={(event) => setInputValue(event.target.value)}*/}
                 {/*           className='add-item-input' placeholder='Add an item...'/>*/}
                 {/*</div>*/}
-                <Typography variant="h6" color="gold">
+                <Typography variant="h6" color="darkgoldenrod">
                     Some sponsored investors.
                 </Typography>
                 <div className='item-list'>
                     {sponsoredList.map((item, index) =>
                         <Box className={classes.cardClass} sx={{minWidth: 150, border: 8, borderRadius: 4}}
-                             color="purple">
+                             color="darkgoldenrod">
                             <Card variant="outlined">{card(item)}</Card>
                         </Box>
                     )}

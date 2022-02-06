@@ -4,6 +4,8 @@ import useScreenSize from "use-screen-size";
 import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
 import {Backdrop, Button, Card, CardActions, CardContent, Fade, Modal, Typography} from "@mui/material";
 import {useLocation} from "react-router-dom";
+import emailjs from '@emailjs/browser';
+import APIKEY from "../emailkey"
 
 const theme = createTheme({
     overrides: {
@@ -138,6 +140,22 @@ const Bubbles: React.FC = () => {
         handleOpen()
     };
 
+    const onContactClick = (event) => {
+        event.preventDefault(); // Prevents default refresh by the browser
+
+        const templateParams = {
+            name: 'Calin',
+        };
+
+        emailjs.send(`gmail`, APIKEY.TEMPLATE_ID, templateParams, APIKEY.USER_ID)
+            .then((result) => {
+                    alert("Send a message.", result.text);
+                },
+                (error) => {
+                    alert("Error occurred.", JSON.stringify(error));
+                });
+    };
+
     return (
         <div className={classes.container}>
             <Modal
@@ -163,7 +181,7 @@ const Bubbles: React.FC = () => {
                         </CardContent>
                         <CardActions>
                             <Button size="small">Get Details</Button>
-                            <Button size="small">Contact</Button>
+                            <Button size="small" onClick={onContactClick}>Contact</Button>
                         </CardActions>
                     </Card>
                 </Fade>
