@@ -42,6 +42,7 @@ const Bubbles: React.FC = () => {
 
     const [projectName, setProjectName] = React.useState("");
     const [abstract, setAbstract] = React.useState("");
+    const [needs, setNeeds] = React.useState("");
     const [open, setOpen] = React.useState(false);
 
     const initialProjectData = useLocation().state.data;
@@ -156,6 +157,23 @@ const Bubbles: React.FC = () => {
                 });
     };
 
+    const showHiddenDetails = () => {
+        console.log(projectName)
+        if (projectName === 'Materflow') {
+            return (
+                <Typography variant="body2" color="text.secondary">
+                    This project needs: money and programming support.
+                </Typography>
+            );
+        }
+
+        return null;
+    }
+
+    const onDetailsClick = () => {
+        // TODO: API Call @Tiberiu
+    }
+
     return (
         <div className={classes.container}>
             <Modal
@@ -178,9 +196,10 @@ const Bubbles: React.FC = () => {
                             <Typography variant="body2" color="text.secondary">
                                 {abstract}
                             </Typography>
+                            {showHiddenDetails()}
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Get Details</Button>
+                            <Button size="small" onClick={onDetailsClick}>Get Details</Button>
                             <Button size="small" onClick={onContactClick}>Contact</Button>
                         </CardActions>
                     </Card>

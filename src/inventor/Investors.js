@@ -1,6 +1,6 @@
 import React from "react";
 import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
-import {Box, Card, CardContent, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, Toolbar, Typography} from "@mui/material";
 import {useLocation} from "react-router-dom";
 
 const theme = createTheme({
@@ -93,6 +93,12 @@ const Investors: React.FC = () => {
                     <li style={{display: "can", color: "gray"}} key={data}> {bull} {data}</li>
                 ))}
                 </Typography>
+                <Toolbar sx={{ justifyContent: "space-between" }}>
+                    <div />
+                    <Button variant="contained" size="large" color="secondary">
+                        Contact
+                    </Button>
+                </Toolbar>
             </CardContent>
         </React.Fragment>
     );
