@@ -84,6 +84,7 @@ const InventorForm: React.FC = () => {
     const [abstract, setAbstract] = useState(initialProjectData.abstract);
     const [needs, setNeeds] = useState(initialProjectData.needs);
     const [tagList, setTagList] = useState(initialProjectData.tagsString);
+    const [accessValue, setAccessValue] = useState(initialProjectData.accessValue);
 
     return (
         <>
@@ -91,7 +92,7 @@ const InventorForm: React.FC = () => {
 
                 <div className={classes.container}>
                     <Typography variant="h3" gutterBottom component="div" className={classes.wantStyle}>
-                        Here are some project statistics:
+                        This project has been checked {accessValue} times.
                     </Typography>
 
                     <Typography variant="h3" gutterBottom component="div" className={classes.wantStyle}>

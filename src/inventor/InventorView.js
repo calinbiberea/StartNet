@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {AppBar} from "@material-ui/core";
 import {createTheme, makeStyles} from "@material-ui/core/styles";
-import {Paper, Tab, Tabs, ThemeProvider, Typography} from "@mui/material";
+import {Paper, Tab, Tabs, ThemeProvider} from "@mui/material";
 import Bubbles from "../common/Bubbles";
 import Inventors from "./Investors";
 import ProjectPage from "./InventorPage";
-import {useLocation, useNavigate} from "react-router-dom";
+import Builders from "./Builders";
 
 const theme = createTheme({
     overrides: {
@@ -71,10 +71,10 @@ const InventorView: React.FC = () => {
     const onViewPageChange = (_event, newValue: number) => setViewPage(newValue);
 
     const tabsArray = [
-        <ProjectPage />,
-        <Bubbles />,
-        <Typography>Muie1</Typography>,
-        <Inventors />
+        <ProjectPage/>,
+        <Bubbles/>,
+        <Builders/>,
+        <Inventors/>
     ]
 
     return (

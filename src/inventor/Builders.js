@@ -28,12 +28,12 @@ const useStyles = makeStyles((theme) =>
             alignItems: "center",
         },
         cardClass: {
-            marginTop: 10,
+          marginTop: 10,
         },
     })
 );
 
-const Investors: React.FC = () => {
+const Builders: React.FC = () => {
     const classes = useStyles(theme);
 
     const [sponsoredList, setSponsoredList] = useState();
@@ -112,4 +112,4 @@ const Investors: React.FC = () => {
     );
 }
 
-export default Investors;
+export default Builders;

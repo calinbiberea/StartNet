@@ -101,7 +101,13 @@ const Bubbles: React.FC = () => {
             console.log(element);
             temp = temp.concat({
                 label: element.projectName,
-                value: getRandomInt(25),
+                value: () => {
+                    if (element.accessValue === 0) {
+                        return 1;
+                    } else {
+                        return element.accessValue;
+                    }
+                },
                 color: calculateSimilarityGradient(element.similarity),
             })
         });
@@ -162,6 +168,20 @@ const Bubbles: React.FC = () => {
                     </Card>
                 </Fade>
             </Modal>
+
+            <Card>
+                <CardContent>
+                    <Typography gutterBottom variant="h4" component="div">
+                        A Sponsored Example
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        This is where a sponsored app would be. Everyone sees it first and this means people would pay a
+                        ton of money for this spot.
+                    </Typography>
+                    <Button style={{marginTop: 8}} size="small">Contact</Button>
+                </CardContent>
+
+            </Card>
 
             <BubbleChart
                 graph={{
