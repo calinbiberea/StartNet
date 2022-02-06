@@ -3,6 +3,7 @@ import BubbleChart from "@weknow/react-bubble-chart-d3";
 import useScreenSize from "use-screen-size";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Backdrop, Button, Card, CardActions, CardContent, Fade, Modal, Typography} from "@mui/material";
+import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -27,12 +28,89 @@ const Bubbles: React.FC = () => {
 
     const classes = useStyles();
 
-    const [open, setOpen] = React.useState(false);
     const [projectName, setProjectName] = React.useState("");
-    const [proposerName, setProposerName] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [contact, setContact] = React.useState("");
-    const [id, setID] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
+
+    const initialProjectData = useLocation().state.data;
+    const [matchingList, setMatchingList] = React.useState([]);
+    const [getData, setGetData] = React.useState(true);
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    const initialLoading = () => {
+        if (getData) {
+            const request = "https://ichack-startnet.herokuapp.com/get_projects_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(8);
+            console.log(request);
+            fetch(request)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setMatchingList(data);
+                    setGetData(false);
+                });
+        }
+    }
+    initialLoading();
+
+    const calculateSimilarityGradient = (similarity) => {
+        const percentColors = [
+            {pct: 0.0, color: {r: 0xff, g: 0x00, b: 0}},
+            {pct: 0.5, color: {r: 0xff, g: 0xff, b: 0}},
+            {pct: 1.0, color: {r: 0x00, g: 0xff, b: 0}}];
+
+        const getColorForPercentage = function (pct) {
+            let i;
+            for (i = 1; i < percentColors.length - 1; i++) {
+                if (pct < percentColors[i].pct) {
+                    break;
+                }
+            }
+            const lower = percentColors[i - 1];
+            const upper = percentColors[i];
+            const range = upper.pct - lower.pct;
+            const rangePct = (pct - lower.pct) / range;
+            const pctLower = 1 - rangePct;
+            const pctUpper = rangePct;
+            const color = {
+                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+            };
+
+            function componentToHex(c) {
+                const hex = c.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }
+
+            function rgbToHex(r, g, b) {
+                return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+            }
+
+            return rgbToHex(color.r, color.g, color.b);
+        };
+
+        return getColorForPercentage(similarity);
+    }
+
+    const generateData = () => {
+        let dataList = [];
+
+        matchingList.forEach((element) => {
+            console.log(element);
+            dataList = dataList.concat({
+                label: element.projectName,
+                value: getRandomInt(25),
+                color: calculateSimilarityGradient(element.similarity),
+            })
+        });
+
+        console.log("Updating with:");
+        console.log(dataList);
+
+        return dataList;
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -94,37 +172,20 @@ const Bubbles: React.FC = () => {
                 valueFont={{
                     family: "Arial",
                     size: 12,
-                    color: "#fff",
+                    color: "#000",
                     weight: "bold"
                 }}
                 labelFont={{
                     family: "Arial",
                     size: 16,
-                    color: "#fff",
+                    color: "#000",
                     weight: "bold"
                 }}
                 // Custom bubble/legend click functions such as searching using the label, redirecting to other page
                 bubbleClickFun={bubbleClick}
                 legendClickFun={() => {
                 }}
-                data={[
-                    {label: "Testing", value: 1, color: '#000000'},
-                    {label: "API", value: 1},
-                    {label: "Data", value: 1},
-                    {label: "Commerce", value: 1},
-                    {label: "AI", value: 3},
-                    {label: "Management", value: 5},
-                    {label: "Testing", value: 6},
-                    {label: "Mobile", value: 9},
-                    {label: "Conversion", value: 9},
-                    {label: "Misc", value: 21},
-                    {label: "Databases", value: 22},
-                    {label: "DevOps", value: 22},
-                    {label: "Javascript", value: 23},
-                    {label: "Languages / Frameworks", value: 25},
-                    {label: "Front End", value: "26"},
-                    {label: "Content", value: 26}
-                ]}
+                data={generateData()}
             />
         </div>
     );

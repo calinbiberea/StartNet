@@ -5,6 +5,7 @@ import {Paper, Tab, Tabs, ThemeProvider} from "@mui/material";
 import Bubbles from "../common/Bubbles";
 import Investors from "./Investors";
 import InvestorPage from "./InvestorPage";
+import {useNavigate} from "react-router-dom";
 
 const theme = createTheme({
     overrides: {

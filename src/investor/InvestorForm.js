@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
 import {Button, TextField, Typography} from "@material-ui/core";
 import {Autocomplete, Chip, Stack} from "@mui/material";
@@ -73,10 +73,15 @@ const useStyles = makeStyles((theme) =>
 const InvestorForm: React.FC = () => {
     const classes = useStyles(theme);
 
+    const [name, setName] = useState("");
+
     const history = useNavigate();
 
     const handleSubmit = () => {
-        history("/investor-view")
+        history({
+            pathname: "/investor-view",
+            state: { detail: name, }}
+)
         console.log("So it begins");
     }
 

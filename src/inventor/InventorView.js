@@ -5,6 +5,7 @@ import {Paper, Tab, Tabs, ThemeProvider, Typography} from "@mui/material";
 import Bubbles from "../common/Bubbles";
 import Inventors from "./Investors";
 import ProjectPage from "./InventorPage";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const theme = createTheme({
     overrides: {

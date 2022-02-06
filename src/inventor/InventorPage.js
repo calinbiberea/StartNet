@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {createStyles, createTheme, makeStyles} from "@material-ui/core/styles";
 import {Button, TextField, Typography} from "@material-ui/core";
 import {Autocomplete, Chip, Stack} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const theme = createTheme({
     overrides: {
@@ -72,12 +72,18 @@ const useStyles = makeStyles((theme) =>
 const InventorForm: React.FC = () => {
     const classes = useStyles(theme);
 
-    const history = useNavigate();
-
     const handleSubmit = () => {
-        history("/inventor-view")
-        console.log("So it begins");
+        console.log("still do nothing here");
     }
+
+    const initialProjectData = useLocation().state.data;
+
+    const [projectName, setProjectName] = useState(initialProjectData.projectName);
+    const [name, setName] = useState(initialProjectData.name);
+    const [email, setEmail] = useState(initialProjectData.email);
+    const [abstract, setAbstract] = useState(initialProjectData.abstract);
+    const [needs, setNeeds] = useState(initialProjectData.needs);
+    const [tagList, setTagList] = useState(initialProjectData.tagsString);
 
     return (
         <>
@@ -93,17 +99,18 @@ const InventorForm: React.FC = () => {
                     </Typography>
 
                     <form onSubmit={handleSubmit} className={classes.container}>
-                        <TextField required name="projectName" label="Project Name" className={classes.formItem}/>
-                        <TextField required name="authorName" label="Your Name" className={classes.formItem}/>
-                        <TextField required name="authorEmail" label="Your Email" className={classes.formItem}/>
-                        <TextField multiline required name="abstract" label="Project Abstract" className={classes.formItem}/>
-                        <TextField multiline required name="needs" label="Project Needs" className={classes.formItem}/>
+                        <TextField required defaultValue={projectName} name="projectName" label="Project Name" className={classes.formItem} onChange={(event) => setProjectName(event.target.value)}/>
+                        <TextField required defaultValue={name} name="authorName" label="Your Name" className={classes.formItem} onChange={(event) => setName(event.target.value)} />
+                        <TextField required defaultValue={email} name="authorEmail" label="Your Email" className={classes.formItem} onChange={(event) => setEmail(event.target.value)} />
+                        <TextField multiline defaultValue={abstract} required name="abstract" label="Project Abstract" className={classes.formItem} onChange={(event) => setAbstract(event.target.value) }/>
+                        <TextField multiline defaultValue={needs} required name="needs" label="Project Needs" className={classes.formItem} onChange={(event) => setNeeds(event.target.value)} />
                         <Stack className={classes.formItem}>
                             <Autocomplete
                                 multiple
                                 id="tags-filled"
                                 options={tags.map((option) => option.tag)}
                                 freeSolo
+                                value={tagList}
                                 renderTags={(value, getTagProps) =>
                                     value.map((option, index) => (
                                         <Chip variant="outlined" label={option} {...getTagProps({ index })} />
@@ -117,6 +124,7 @@ const InventorForm: React.FC = () => {
                                         placeholder="Project Tags"
                                     />
                                 )}
+                                onChange={(_, values) => setTagList(values)}
                             />
                         </Stack>
                         <Button
