@@ -82,7 +82,7 @@ const InventorForm: React.FC = () => {
         const encodedTagsString = encodeURIComponent(tagList.join(','))
         const encodedPassword = encodeURIComponent(password)
 
-        const shitRequest = 'https://ichack-startnet.herokuapp.com/add_project?projectName=' + encodedProjectName + '&name=' + encodedName + '&tagsString=' + encodedTagsString + '&email=' + encodedEmail + '&password=' + encodedPassword + '&abstract=' + encodedAbstract + '&needs' + encodedNeeds;
+        const shitRequest = 'https://ichack-startnet.herokuapp.com/add_project?projectName=' + encodedProjectName + '&name=' + encodedName + '&tagsString=' + encodedTagsString + '&email=' + encodedEmail + '&password=' + encodedPassword + '&abstract=' + encodedAbstract + '&needs=' + encodedNeeds;
 
         fetch(shitRequest)
             .then(response => response.json())

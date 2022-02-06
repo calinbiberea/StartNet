@@ -29,6 +29,7 @@ const Bubbles: React.FC = () => {
     const classes = useStyles();
 
     const [projectName, setProjectName] = React.useState("");
+    const [abstract, setAbstract] = React.useState("");
     const [open, setOpen] = React.useState(false);
 
     const initialProjectData = useLocation().state.data;
@@ -41,12 +42,11 @@ const Bubbles: React.FC = () => {
 
     const initialLoading = () => {
         if (getData) {
-            const request = "https://ichack-startnet.herokuapp.com/get_projects_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(8);
+            const request = "https://ichack-startnet.herokuapp.com/get_projects_with_tags?tags=" + encodeURIComponent(initialProjectData.tagsString.join(',')) + '&project_count=' + encodeURIComponent(15);
             console.log(request);
             fetch(request)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     setMatchingList(data);
                     setGetData(false);
                 });
@@ -95,22 +95,24 @@ const Bubbles: React.FC = () => {
     }
 
     const generateData = () => {
-        let dataList = [];
+        let temp = [];
 
         matchingList.forEach((element) => {
             console.log(element);
-            dataList = dataList.concat({
+            temp = temp.concat({
                 label: element.projectName,
                 value: getRandomInt(25),
                 color: calculateSimilarityGradient(element.similarity),
             })
         });
 
-        console.log("Updating with:");
-        console.log(dataList);
+        if (temp.length === 0) {
+            return;
+        }
 
-        return dataList;
+        return temp;
     }
+    generateData();
 
     const handleOpen = () => {
         setOpen(true);
@@ -120,6 +122,13 @@ const Bubbles: React.FC = () => {
 
     const bubbleClick = (label) => {
         setProjectName(label);
+
+        matchingList.forEach((element) => {
+            if (element.projectName === label) {
+                setAbstract(element.abstract)
+            }
+        });
+
         handleOpen()
     };
 
@@ -143,7 +152,7 @@ const Bubbles: React.FC = () => {
                                 {projectName}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                This is some nice text to make everything nice and clear instead of insane.
+                                {abstract}
                             </Typography>
                         </CardContent>
                         <CardActions>
