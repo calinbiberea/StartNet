@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) =>
             alignItems: "center",
         },
         container: {
+            backgroundColor: "#FFFCF4",
             height: "100%",
             display: "flex",
             flexDirection: "column",
